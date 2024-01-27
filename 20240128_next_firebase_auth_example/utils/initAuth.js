@@ -1,9 +1,9 @@
 /* globals window */
-import { initializeApp } from 'firebase/app'
-import { init } from 'next-firebase-auth'
-import absoluteUrl from 'next-absolute-url'
+import { initializeApp } from "firebase/app";
+import { init } from "next-firebase-auth";
+import absoluteUrl from "next-absolute-url";
 
-const TWELVE_DAYS_IN_MS = 12 * 60 * 60 * 24 * 1000
+const TWELVE_DAYS_IN_MS = 12 * 60 * 60 * 24 * 1000;
 
 const initAuth = () => {
   // Initialize Firebase.
@@ -12,8 +12,8 @@ const initAuth = () => {
     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
     databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
     projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  }
-  initializeApp(firebaseClientInitConfig)
+  };
+  initializeApp(firebaseClientInitConfig);
 
   // Initialize next-firebase-auth.
   init({
@@ -23,59 +23,59 @@ const initAuth = () => {
     // redirecting from app pages. Alternatively, you can simply
     // specify `authPageURL: '/auth-ssr'`.
     authPageURL: ({ ctx }) => {
-      const isServerSide = typeof window === 'undefined'
+      const isServerSide = typeof window === "undefined";
       const origin = isServerSide
         ? absoluteUrl(ctx.req).origin
-        : window.location.origin
+        : window.location.origin;
       const destPath =
-        typeof window === 'undefined' ? ctx.resolvedUrl : window.location.href
-      const destURL = new URL(destPath, origin)
-      return `/auth-ssr?destination=${encodeURIComponent(destURL)}`
+        typeof window === "undefined" ? ctx.resolvedUrl : window.location.href;
+      const destURL = new URL(destPath, origin);
+      return `/auth-ssr?destination=${encodeURIComponent(destURL)}`;
     },
 
     // This demonstrates setting a dynamic destination URL when
     // redirecting from auth pages. Alternatively, you can simply
     // specify `appPageURL: '/'`.
     appPageURL: ({ ctx }) => {
-      const isServerSide = typeof window === 'undefined'
+      const isServerSide = typeof window === "undefined";
       const origin = isServerSide
         ? absoluteUrl(ctx.req).origin
-        : window.location.origin
+        : window.location.origin;
       const params = isServerSide
         ? new URL(ctx.req.url, origin).searchParams
-        : new URLSearchParams(window.location.search)
-      const destinationParamVal = params.get('destination')
-        ? decodeURIComponent(params.get('destination'))
-        : undefined
+        : new URLSearchParams(window.location.search);
+      const destinationParamVal = params.get("destination")
+        ? decodeURIComponent(params.get("destination"))
+        : undefined;
 
       // By default, go to the index page if the destination URL
       // is invalid or unspecified.
-      let destURL = '/'
+      let destURL = "/";
       if (destinationParamVal) {
         // Verify the redirect URL host is allowed.
         // https://owasp.org/www-project-web-security-testing-guide/v41/4-Web_Application_Security_Testing/11-Client_Side_Testing/04-Testing_for_Client_Side_URL_Redirect
         const allowedHosts = [
-          'localhost:3000',
-          'nfa-example.vercel.app',
-          'nfa-example-git-v1x-gladly-team.vercel.app',
-        ]
+          "localhost:3000",
+          "nfa-example.vercel.app",
+          "nfa-example-git-v1x-gladly-team.vercel.app",
+        ];
         const allowed =
-          allowedHosts.indexOf(new URL(destinationParamVal).host) > -1
+          allowedHosts.indexOf(new URL(destinationParamVal).host) > -1;
         if (allowed) {
-          destURL = destinationParamVal
+          destURL = destinationParamVal;
         } else {
           // eslint-disable-next-line no-console
           console.warn(
             `Redirect destination host must be one of ${allowedHosts.join(
-              ', '
+              ", "
             )}.`
-          )
+          );
         }
       }
-      return destURL
+      return destURL;
     },
-    loginAPIEndpoint: '/api/login',
-    logoutAPIEndpoint: '/api/logout',
+    loginAPIEndpoint: "/api/login",
+    logoutAPIEndpoint: "/api/logout",
     firebaseAdminInitConfig: {
       credential: {
         projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
@@ -91,7 +91,7 @@ const initAuth = () => {
     },
     firebaseClientInitConfig,
     cookies: {
-      name: 'ExampleApp',
+      name: "ExampleApp",
       keys: [
         process.env.COOKIE_SECRET_CURRENT,
         process.env.COOKIE_SECRET_PREVIOUS,
@@ -99,12 +99,12 @@ const initAuth = () => {
       httpOnly: true,
       maxAge: TWELVE_DAYS_IN_MS,
       overwrite: true,
-      path: '/',
-      sameSite: 'lax',
-      secure: process.env.NEXT_PUBLIC_COOKIE_SECURE === 'true',
+      path: "/",
+      sameSite: "lax",
+      secure: process.env.NEXT_PUBLIC_COOKIE_SECURE === "true",
       signed: true,
     },
-  })
-}
+  });
+};
 
-export default initAuth
+export default initAuth;
