@@ -3,7 +3,7 @@ import "../styles/globals.css";
 import initAuth from "../utils/initAuth";
 import { getFirestore, connectFirestoreEmulator } from "firebase/firestore";
 
-const useEmulator = true;
+const useEmulator = false;
 
 initAuth(useEmulator);
 
