@@ -2,10 +2,11 @@
 import { initializeApp } from "firebase/app";
 import { init } from "next-firebase-auth";
 import absoluteUrl from "next-absolute-url";
+import { getAuth, connectAuthEmulator } from "firebase/auth";
 
 const TWELVE_DAYS_IN_MS = 12 * 60 * 60 * 24 * 1000;
 
-const initAuth = () => {
+const initAuth = (useEmulator) => {
   // Initialize Firebase.
   const firebaseClientInitConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_PUBLIC_API_KEY,
@@ -14,6 +15,10 @@ const initAuth = () => {
     projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
   };
   initializeApp(firebaseClientInitConfig);
+  if (useEmulator) {
+    const auth = getAuth();
+    connectAuthEmulator(auth, "http://localhost:9099");
+  }
 
   // Initialize next-firebase-auth.
   init({
@@ -56,6 +61,7 @@ const initAuth = () => {
         // https://owasp.org/www-project-web-security-testing-guide/v41/4-Web_Application_Security_Testing/11-Client_Side_Testing/04-Testing_for_Client_Side_URL_Redirect
         const allowedHosts = [
           "localhost:3000",
+          "localhost:3001",
           "nfa-example.vercel.app",
           "nfa-example-git-v1x-gladly-team.vercel.app",
         ];
@@ -76,6 +82,7 @@ const initAuth = () => {
     },
     loginAPIEndpoint: "/api/login",
     logoutAPIEndpoint: "/api/logout",
+    firebaseAuthEmulatorHost: useEmulator ? "localhost:9099" : undefined,
     firebaseAdminInitConfig: {
       credential: {
         projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
