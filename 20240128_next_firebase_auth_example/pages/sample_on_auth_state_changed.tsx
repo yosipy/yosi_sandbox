@@ -38,7 +38,7 @@ const Index: FC = () => {
 
 export default withUser()(Index);
 
-// Log
+// Log(not use emulator)
 //
 // Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
 // initAuth.js:24 next-firebase-auth [init] Setting config with provided value: {debug: true, loginAPIEndpoint: '/api/login', logoutAPIEndpoint: '/api/logout', authPageURL: ƒ, appPageURL: ƒ, …}
@@ -60,3 +60,27 @@ export default withUser()(Index);
 // index.browser.js:2 next-firebase-auth [withUser] Set user to: {id: null, email: null, emailVerified: false, tenantId: null, phoneNumber: null, …}
 // sample_on_auth_state_changed.tsx:8 currenUser.clientInitialized: true (Mon Jan 29 2024 10:41:51 GMT+0900 (日本標準時))
 // sample_on_auth_state_changed.tsx:18 onAuthStateChangedUser: null (Mon Jan 29 2024 10:42:21 GMT+0900 (日本標準時))
+
+// Log(use emulator)
+// Download the React DevTools for a better development experience: https://reactjs.org/link/react-devtools
+// initAuth.js:20 WARNING: You are using the Auth Emulator, which is intended for local testing only.  Do not use with production credentials.
+// initAuth.js:24 next-firebase-auth [init] Setting config with provided value: {debug: true, loginAPIEndpoint: '/api/login', logoutAPIEndpoint: '/api/logout', authPageURL: ƒ, appPageURL: ƒ, …}
+// initAuth.js:24 next-firebase-auth [init] Initialized the Firebase JS SDK.
+// initAuth.js:24 WARNING: You are using the Auth Emulator, which is intended for local testing only.  Do not use with production credentials.
+// sample_on_auth_state_changed.tsx:39 next-firebase-auth [withUser] Calling "withUser".
+// websocket.js:48 [HMR] connected
+// index.browser.js:2 next-firebase-auth [withUser] Set user to: {id: null, email: null, emailVerified: false, tenantId: null, phoneNumber: null, …}
+// sample_on_auth_state_changed.tsx:8 currenUser.clientInitialized: false (Mon Jan 29 2024 12:20:21 GMT+0900 (日本標準時))
+// api.js?onload=__iframefcb569540:29 Uncaught TypeError: u[v] is not a function
+//     at Q.<computed> [as loaded_0] (api.js?onload=__iframefcb569540:29:145)
+//     at cb=gapi.loaded_0?le=scs:1:6
+// Q.<computed> @ api.js?onload=__iframefcb569540:29
+// (anonymous) @ cb=gapi.loaded_0?le=scs:1
+// index.browser.js:2 next-firebase-auth [withUser] The Firebase ID token changed. New Firebase user: null
+// index.browser.js:2 next-firebase-auth [withUser] Calling the logout endpoint.
+// index.browser.js:2 next-firebase-auth [withUser] Set user to: {id: null, email: null, emailVerified: false, tenantId: null, phoneNumber: null, …}
+// sample_on_auth_state_changed.tsx:8 currenUser.clientInitialized: true (Mon Jan 29 2024 12:20:22 GMT+0900 (日本標準時))
+// index.browser.js:2 next-firebase-auth [withUser] Completed the auth API request.
+// index.browser.js:2 next-firebase-auth [withUser] Set user to: {id: null, email: null, emailVerified: false, tenantId: null, phoneNumber: null, …}
+// sample_on_auth_state_changed.tsx:8 currenUser.clientInitialized: true (Mon Jan 29 2024 12:20:22 GMT+0900 (日本標準時))
+// sample_on_auth_state_changed.tsx:18 onAuthStateChangedUser: null (Mon Jan 29 2024 12:20:52 GMT+0900 (日本標準時))
