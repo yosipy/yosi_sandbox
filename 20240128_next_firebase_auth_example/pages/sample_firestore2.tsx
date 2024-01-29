@@ -66,5 +66,5 @@ export default withUser({
 // index.browser.js:2 next-firebase-auth [withUser] Set user to: {id: null, email: null, emailVerified: false, tenantId: null, phoneNumber: null, …}
 // index.browser.js:2 next-firebase-auth [withUser] Completed the auth API request.
 // index.browser.js:2 next-firebase-auth [withUser] Set user to: {id: null, email: null, emailVerified: false, tenantId: null, phoneNumber: null, …}
-// sample_firestore2.tsx:21 Fetch start: Mon Jan 29 2024 10:07:30 GMT+0900 (日本標準時)
-// sample_firestore2.tsx:34 Fetch end: Mon Jan 29 2024 10:07:30 GMT+0900 (日本標準時)
+// sample_firestore2.tsx:21 Fetch start: Mon Jan 29 2024 10:43:25 GMT+0900 (日本標準時)
+// sample_firestore2.tsx:34 Fetch end: Mon Jan 29 2024 10:43:25 GMT+0900 (日本標準時)

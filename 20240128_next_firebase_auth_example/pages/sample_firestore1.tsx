@@ -61,15 +61,15 @@ export default withUser()(Index);
 // sample_firestore1.tsx:52 next-firebase-auth [withUser] Calling "withUser".
 // websocket.js:48 [HMR] connected
 // index.browser.js:2 next-firebase-auth [withUser] Set user to: {id: null, email: null, emailVerified: false, tenantId: null, phoneNumber: null, …}
-// sample_firestore1.tsx:21 Fetch start: Mon Jan 29 2024 10:08:08 GMT+0900 (日本標準時)
-// api.js?onload=__iframefcb768153:29 Uncaught TypeError: u[v] is not a function
-//     at Q.<computed> [as loaded_0] (api.js?onload=__iframefcb768153:29:145)
+// sample_firestore1.tsx:21 Fetch start: Mon Jan 29 2024 10:43:44 GMT+0900 (日本標準時)
+// api.js?onload=__iframefcb846299:29 Uncaught TypeError: u[v] is not a function
+//     at Q.<computed> [as loaded_0] (api.js?onload=__iframefcb846299:29:145)
 //     at cb=gapi.loaded_0?le=scs:1:6
-// Q.<computed> @ api.js?onload=__iframefcb768153:29
+// Q.<computed> @ api.js?onload=__iframefcb846299:29
 // (anonymous) @ cb=gapi.loaded_0?le=scs:1
 // index.browser.js:2 next-firebase-auth [withUser] The Firebase ID token changed. New Firebase user: null
 // index.browser.js:2 next-firebase-auth [withUser] Calling the logout endpoint.
 // index.browser.js:2 next-firebase-auth [withUser] Set user to: {id: null, email: null, emailVerified: false, tenantId: null, phoneNumber: null, …}
 // index.browser.js:2 next-firebase-auth [withUser] Completed the auth API request.
 // index.browser.js:2 next-firebase-auth [withUser] Set user to: {id: null, email: null, emailVerified: false, tenantId: null, phoneNumber: null, …}
-// sample_firestore1.tsx:34 Fetch end: Mon Jan 29 2024 10:08:39 GMT+0900 (日本標準時)
+// sample_firestore1.tsx:34 Fetch end: Mon Jan 29 2024 10:44:15 GMT+0900 (日本標準時)
