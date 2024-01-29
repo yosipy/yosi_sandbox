@@ -46,20 +46,18 @@ export default withUser({
 // initAuth.js:24 next-firebase-auth [init] Setting config with provided value: {debug: true, loginAPIEndpoint: '/api/login', logoutAPIEndpoint: '/api/logout', authPageURL: ƒ, appPageURL: ƒ, …}
 // initAuth.js:24 next-firebase-auth [init] Initialized the Firebase JS SDK.
 // initAuth.js:24 WARNING: You are using the Auth Emulator, which is intended for local testing only.  Do not use with production credentials.
-// sample_on_auth_state_changed.tsx:39 next-firebase-auth [withUser] Calling "withUser".
+// sample_on_auth_state_changed2.tsx:41 next-firebase-auth [withUser] Calling "withUser".
 // websocket.js:48 [HMR] connected
 // index.browser.js:2 next-firebase-auth [withUser] Set user to: {id: null, email: null, emailVerified: false, tenantId: null, phoneNumber: null, …}
-// sample_on_auth_state_changed.tsx:8 currenUser.clientInitialized: false (Mon Jan 29 2024 12:26:37 GMT+0900 (日本標準時))
-// api.js?onload=__iframefcb449584:29 Uncaught TypeError: u[v] is not a function
-//     at Q.<computed> [as loaded_0] (api.js?onload=__iframefcb449584:29:145)
+// api.js?onload=__iframefcb873588:29 Uncaught TypeError: u[v] is not a function
+//     at Q.<computed> [as loaded_0] (api.js?onload=__iframefcb873588:29:145)
 //     at cb=gapi.loaded_0?le=scs:1:6
-// Q.<computed> @ api.js?onload=__iframefcb449584:29
+// Q.<computed> @ api.js?onload=__iframefcb873588:29
 // (anonymous) @ cb=gapi.loaded_0?le=scs:1
 // index.browser.js:2 next-firebase-auth [withUser] The Firebase ID token changed. New Firebase user: null
 // index.browser.js:2 next-firebase-auth [withUser] Calling the logout endpoint.
 // index.browser.js:2 next-firebase-auth [withUser] Set user to: {id: null, email: null, emailVerified: false, tenantId: null, phoneNumber: null, …}
-// sample_on_auth_state_changed.tsx:8 currenUser.clientInitialized: true (Mon Jan 29 2024 12:26:37 GMT+0900 (日本標準時))
 // index.browser.js:2 next-firebase-auth [withUser] Completed the auth API request.
 // index.browser.js:2 next-firebase-auth [withUser] Set user to: {id: null, email: null, emailVerified: false, tenantId: null, phoneNumber: null, …}
-// sample_on_auth_state_changed.tsx:8 currenUser.clientInitialized: true (Mon Jan 29 2024 12:26:37 GMT+0900 (日本標準時))
-// sample_on_auth_state_changed.tsx:18 onAuthStateChangedUser: null (Mon Jan 29 2024 12:27:07 GMT+0900 (日本標準時))
+// sample_on_auth_state_changed2.tsx:8 currenUser.clientInitialized: true (Mon Jan 29 2024 12:40:31 GMT+0900 (日本標準時))
+// sample_on_auth_state_changed2.tsx:18 onAuthStateChangedUser: null (Mon Jan 29 2024 12:41:01 GMT+0900 (日本標準時))
