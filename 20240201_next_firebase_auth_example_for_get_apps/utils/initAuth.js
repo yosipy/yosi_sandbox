@@ -14,17 +14,7 @@ const initAuth = (useEmulator) => {
     databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
     projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
   };
-  console.log(
-    `[my-app: before initializeApp(firebaseClientInitConfig)] getApps().length: ${
-      getApps().length
-    }`
-  );
   initializeApp(firebaseClientInitConfig);
-  console.log(
-    `[my-app: after initializeApp(firebaseClientInitConfig)] getApps().length: ${
-      getApps().length
-    }`
-  );
   if (useEmulator) {
     const auth = getAuth();
     connectAuthEmulator(auth, "http://localhost:9099");
@@ -131,9 +121,6 @@ const initAuth = (useEmulator) => {
       console.error(err);
     },
   });
-  console.log(
-    `[my-app: after init({...})] getApps().length: ${getApps().length}`
-  );
 };
 
 export default initAuth;
