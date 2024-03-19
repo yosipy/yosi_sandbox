@@ -3,7 +3,7 @@ import { renderToString } from "react-dom/server"
 
 const app = new Hono()
 
-app.get("/", (c) => {
+app.get("*", (c) => {
   return c.html(
     renderToString(
       <html>
