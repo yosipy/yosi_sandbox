@@ -8,6 +8,7 @@
     "deploy": "$npm_execpath run build && wrangler pages deploy dist"
   },
   "dependencies": {
+    "@generouted/react-router": "^1.18.5",
     "hono": "^4.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
