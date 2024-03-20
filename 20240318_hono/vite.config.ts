@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => {
           input: "/src/client.tsx",
           output: {
             entryFileNames: "static/[name].js",
-            chunkFileNames: "static/[hash].js",
+            chunkFileNames: "static/[name]-[hash].js",
           },
         },
       },
