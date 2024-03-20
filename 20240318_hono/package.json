@@ -2,6 +2,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "build": "npm run build:csr && npm run build:ssr",
     "build:ssr:watch": "vite build --watch",
     "build:csr:watch": "vite build --mode client --watch",
     "build:ssr": "vite build",
