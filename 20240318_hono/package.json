@@ -1,12 +1,13 @@
 {
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev:ssr": "vite --port 5173",
+    "dev:csr": "vite --mode client --port 5174",
     "build": "npm run build:csr && npm run build:ssr",
-    "build:ssr:watch": "vite build --watch",
-    "build:csr:watch": "vite build --mode client --watch",
     "build:ssr": "vite build",
     "build:csr": "vite build --mode client",
+    "build:ssr:watch": "build:ssr -- --watch",
+    "build:csr:watch": "build:csr -- --watch",
     "preview": "wrangler pages dev dist",
     "deploy": "$npm_execpath run build && wrangler pages deploy dist"
   },
