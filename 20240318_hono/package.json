@@ -6,8 +6,8 @@
     "build": "npm run build:csr && npm run build:ssr",
     "build:ssr": "vite build",
     "build:csr": "vite build --mode client",
-    "build:ssr:watch": "build:ssr -- --watch",
-    "build:csr:watch": "build:csr -- --watch",
+    "build:ssr:watch": "npm run build:ssr -- --watch",
+    "build:csr:watch": "npm run build:csr -- --watch",
     "preview": "wrangler pages dev dist",
     "deploy": "$npm_execpath run build && wrangler pages deploy dist"
   },
