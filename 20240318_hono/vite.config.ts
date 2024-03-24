@@ -6,13 +6,15 @@ import react from "@vitejs/plugin-react"
 export default defineConfig(({ mode }) => {
   if (mode === "client") {
     return {
+      publicDir: false,
       build: {
         manifest: true,
+        outDir: "dist/static/client",
         rollupOptions: {
           input: "/src/client.tsx",
           output: {
-            entryFileNames: "static/[name].js",
-            chunkFileNames: "static/[name]-[hash].js",
+            entryFileNames: "[name].js",
+            chunkFileNames: "[name]-[hash].js",
           },
         },
       },

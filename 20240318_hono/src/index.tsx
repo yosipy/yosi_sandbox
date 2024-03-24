@@ -99,7 +99,7 @@ app.get("*", async (c) => {
             href="https://cdn.simplecss.org/simple.min.css"
           />
           {import.meta.env.PROD ? (
-            <script type="module" src="/static/client.js"></script>
+            <script type="module" src="/static/client/client.js"></script>
           ) : (
             <>
               <script
