@@ -2,7 +2,6 @@ import build from "@hono/vite-cloudflare-pages"
 import devServer from "@hono/vite-dev-server"
 import { defineConfig } from "vite"
 import react from "@vitejs/plugin-react"
-import generouted from "@generouted/react-router/plugin"
 
 export default defineConfig(({ mode }) => {
   if (mode === "client") {
@@ -17,7 +16,7 @@ export default defineConfig(({ mode }) => {
           },
         },
       },
-      plugins: [react(), generouted()],
+      plugins: [react()],
     }
   } else {
     return {
