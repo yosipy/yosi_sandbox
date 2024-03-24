@@ -1,6 +1,7 @@
-import { Link } from "../router"
+import { Link } from "react-router-dom"
 
 export default function About() {
+  console.log("aboit")
   return (
     <>
       <Link to="/">Home</Link>

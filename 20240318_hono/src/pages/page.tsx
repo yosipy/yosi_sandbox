@@ -1,4 +1,4 @@
-import { Link } from "../router"
+import { Link } from "react-router-dom"
 
 export default function Top() {
   return (
