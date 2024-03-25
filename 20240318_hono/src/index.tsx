@@ -1,13 +1,97 @@
 import { Hono } from "hono"
-import { renderToString } from "react-dom/server"
+import { Suspense } from "react"
+import { renderToReadableStream, renderToString } from "react-dom/server"
+
+const sleep = (msec: number) =>
+  new Promise((resolve) => setTimeout(resolve, msec))
 
 const app = new Hono()
 
-app.get("/", (c) => {
+let finished = false
+
+const DelayComponent = () => {
+  const a = "</div>"
+  if (finished) {
+    finished = false
+    return (
+      <div>
+        <div id="title">取得したタイトル</div>
+        <div id="description">取得した説明</div>
+      </div>
+    )
+  }
+
+  throw new Promise((resolve) => {
+    return setTimeout(() => {
+      finished = true
+      resolve(true)
+    }, 3000)
+  })
+}
+
+const App = () => (
+  <div>
+    Test
+    <Suspense fallback={<div>Loading 3 sec...</div>}>
+      <DelayComponent />
+    </Suspense>
+  </div>
+)
+
+let title: string | null = null
+let description: string | null = null
+app.get("/api/app", async (c) => {
+  const decoder = new TextDecoder("utf-8")
+  const stream = await renderToReadableStream(<App />)
+
+  const reader = stream.getReader()
+  while (true) {
+    const { done, value } = await reader.read()
+
+    const html = decoder.decode(value)
+
+    // タイトルと説明を取り出すための正規表現パターン
+    const titleRegex = /<div id="title">(.*?)<\/div>/
+    const descriptionRegex = /<div id="description">(.*?)<\/div>/
+
+    // タイトルと説明を抽出する
+    const titleMatch = html.match(titleRegex)
+    const descriptionMatch = html.match(descriptionRegex)
+
+    // 抽出した結果を変数に格納
+    title = titleMatch ? titleMatch[1] : null
+    description = descriptionMatch ? descriptionMatch[1] : null
+
+    await sleep(100)
+    if (title && description) break
+    if (done) break
+    if (value === undefined) break
+  }
+
+  return c.json({ title, description })
+})
+
+app.get("*", async (c) => {
+  console.log(c.req.header("protocol"))
+  const host = c.req.header("host")
+  console.log(host)
+  console.log(new URL(c.req.url).origin)
+  try {
+    const res = await fetch(new URL(c.req.url).origin + "/api/app")
+    const data = (await res.json()) as any
+    console.log(data)
+    title = data["title"]
+    description = data["description"]
+  } catch (e) {
+    console.error(e)
+  }
+
   return c.html(
     renderToString(
       <html>
         <head>
+          {title && <title>{title}</title>}
+          {description && <meta name="description" content={description} />}
           <meta charSet="utf-8" />
           <meta content="width=device-width, initial-scale=1" name="viewport" />
           <link
@@ -15,9 +99,18 @@ app.get("/", (c) => {
             href="https://cdn.simplecss.org/simple.min.css"
           />
           {import.meta.env.PROD ? (
-            <script type="module" src="/static/client.js"></script>
+            <script type="module" src="/static/client/client.js"></script>
           ) : (
-            <script type="module" src="/src/client.tsx"></script>
+            <>
+              <script
+                type="module"
+                src="http://localhost:5173/static/devClientScript.js"
+              ></script>
+              <script
+                type="module"
+                src="http://localhost:5174/src/client.tsx"
+              ></script>
+            </>
           )}
         </head>
         <body>
