@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => {
         manifest: true,
         outDir: "dist/static/client",
         rollupOptions: {
-          input: "/src/client.tsx",
+          input: "/src/clientEntrypoint.tsx",
           output: {
             entryFileNames: "[name].js",
             chunkFileNames: "[name]-[hash].js",
@@ -26,9 +26,11 @@ export default defineConfig(({ mode }) => {
         external: ["react", "react-dom"],
       },
       plugins: [
-        build(),
+        build({
+          entry: "src/serverEntrypoint.tsx",
+        }),
         devServer({
-          entry: "src/index.tsx",
+          entry: "src/serverEntrypoint.tsx",
         }),
       ],
     }

@@ -1,5 +1,4 @@
-import React, { Suspense, FC } from "react"
-import { RouterProvider, createBrowserRouter } from "react-router-dom"
+import React, { Suspense } from "react"
 
 const LazyImportComponent = (action: any) => {
   const LazyComponent = React.lazy(action)
@@ -12,9 +11,10 @@ const LazyImportComponent = (action: any) => {
   }
 }
 
+const clientRegex = "/src/pages/**/[a-z[]*.tsx"
 const ROUTES = import.meta.glob("/src/pages/**/[a-z[]*.tsx")
 
-const routes = Object.keys(ROUTES).map((route) => {
+export const routeObjects = Object.keys(ROUTES).map((route) => {
   const path = route
     .replace(/\/src\/pages|page\.tsx$/g, "")
     .replace(/\[\.{3}.+\]/, "*")
@@ -22,8 +22,3 @@ const routes = Object.keys(ROUTES).map((route) => {
 
   return { path, element: LazyImportComponent(ROUTES[route])({}) }
 })
-console.log(routes)
-
-export const MyRouter: FC = () => (
-  <RouterProvider router={createBrowserRouter(routes)} />
-)

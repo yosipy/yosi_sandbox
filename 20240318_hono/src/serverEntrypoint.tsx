@@ -1,6 +1,8 @@
 import { Hono } from "hono"
 import { Suspense } from "react"
 import { renderToReadableStream, renderToString } from "react-dom/server"
+import ArticleShow from "./pages/articles/[id]/page"
+import { MemoryRouter, Routes, Route } from "react-router-dom"
 
 const sleep = (msec: number) =>
   new Promise((resolve) => setTimeout(resolve, msec))
@@ -10,7 +12,6 @@ const app = new Hono()
 let finished = false
 
 const DelayComponent = () => {
-  const a = "</div>"
   if (finished) {
     finished = false
     return (
@@ -42,13 +43,21 @@ let title: string | null = null
 let description: string | null = null
 app.get("/api/app", async (c) => {
   const decoder = new TextDecoder("utf-8")
-  const stream = await renderToReadableStream(<App />)
+  const stream = await renderToReadableStream(
+    <MemoryRouter initialEntries={["/articles/1000"]}>
+      <Routes>
+        <Route path="/articles/:id" element={<ArticleShow />} />
+      </Routes>
+    </MemoryRouter>
+  )
+  await stream.allReady
 
   const reader = stream.getReader()
   while (true) {
     const { done, value } = await reader.read()
 
     const html = decoder.decode(value)
+    console.log(html)
 
     // タイトルと説明を取り出すための正規表現パターン
     const titleRegex = /<div id="title">(.*?)<\/div>/
@@ -99,7 +108,10 @@ app.get("*", async (c) => {
             href="https://cdn.simplecss.org/simple.min.css"
           />
           {import.meta.env.PROD ? (
-            <script type="module" src="/static/client/client.js"></script>
+            <script
+              type="module"
+              src="/static/client/clientEntrypoint.js"
+            ></script>
           ) : (
             <>
               <script
