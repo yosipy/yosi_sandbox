@@ -1,8 +1,12 @@
 import { Hono } from "hono"
 import { Suspense } from "react"
 import { renderToReadableStream, renderToString } from "react-dom/server"
-import ArticleShow from "./pages/articles/[id]/page"
-import { MemoryRouter, Routes, Route } from "react-router-dom"
+import {
+  createStaticHandler,
+  createStaticRouter,
+  StaticRouterProvider,
+} from "react-router-dom/server"
+import { routeObjects } from "./homura/router/Router"
 
 const sleep = (msec: number) =>
   new Promise((resolve) => setTimeout(resolve, msec))
@@ -43,12 +47,12 @@ let title: string | null = null
 let description: string | null = null
 app.get("/api/app", async (c) => {
   const decoder = new TextDecoder("utf-8")
+
+  let { query, dataRoutes } = createStaticHandler(routeObjects)
+  let context = await query(c.req)
+  const router = createStaticRouter(dataRoutes, context)
   const stream = await renderToReadableStream(
-    <MemoryRouter initialEntries={["/articles/1000"]}>
-      <Routes>
-        <Route path="/articles/:id" element={<ArticleShow />} />
-      </Routes>
-    </MemoryRouter>
+    <StaticRouterProvider router={router} context={context} />
   )
   await stream.allReady
 
