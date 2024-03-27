@@ -6,7 +6,7 @@ import {
   StaticRouterProvider,
 } from "react-router-dom/server"
 import { routeObjects } from "./homura/router/Router"
-import { HelmetProvider } from "react-helmet-async"
+import { HelmetProvider, HelmetServerState } from "react-helmet-async"
 
 const app = new Hono()
 
@@ -43,7 +43,11 @@ export const createFetchRequest = (req: HonoRequest): Request => {
 let title: string | null = null
 let description: string | null = null
 app.get("/about", async (c) => {
-  const helmetContext = {}
+  const helmetContext:
+    | {
+        helmet?: HelmetServerState
+      }
+    | undefined = {}
   const decoder = new TextDecoder("utf-8")
 
   // assets folder にいろいろ吐き出されるのやめたい
@@ -87,7 +91,7 @@ app.get("/about", async (c) => {
 
   const { helmet } = helmetContext
   console.log("@@@@@@@@@")
-  console.log(helmet.title.toString())
+  console.log(helmet?.title.toString())
   return c.json({ title, description })
 })
 
