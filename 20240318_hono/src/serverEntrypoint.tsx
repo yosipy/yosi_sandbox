@@ -6,20 +6,13 @@ import {
   StaticRouterProvider,
 } from "react-router-dom/server"
 import { routeObjects } from "./homura/router/Router"
-import { Helmet, HelmetProvider } from "react-helmet-async"
+import { HelmetProvider } from "react-helmet-async"
 
 const app = new Hono()
 
-export const createFetchRequest = (
-  req: HonoRequest
-  // res: Response
-): Request => {
-  // let origin = `${req.protocol}://${req.get("host")}`
-  // // Note: This had to take originalUrl into account for presumably vite's proxying
-  // let url = new URL(req.originalUrl || req.url, origin)
-
-  let controller = new AbortController()
-  // res.on("close", () => controller.abort())
+export const createFetchRequest = (req: HonoRequest): Request => {
+  // const url = new URL(req.url)
+  // console.log(`----${url.protocol}://${url.host}${url.pathname}`)
 
   let headers = new Headers()
 
@@ -38,7 +31,6 @@ export const createFetchRequest = (
   let init: RequestInit = {
     method: req.method,
     headers,
-    signal: controller.signal,
   }
 
   if (req.method !== "GET") {
@@ -55,8 +47,11 @@ app.get("/about", async (c) => {
   const decoder = new TextDecoder("utf-8")
 
   // assets folder にいろいろ吐き出されるのやめたい
-  let { query, dataRoutes } = createStaticHandler(routeObjects)
-  let context = await query(createFetchRequest(c.req))
+  const { query, dataRoutes } = createStaticHandler(routeObjects)
+  const context = await query(createFetchRequest(c.req))
+  if (context instanceof Response) {
+    throw context
+  }
   console.log("%%%%%%%%%%%")
   const router = createStaticRouter(dataRoutes, context)
   const stream = await renderToReadableStream(
