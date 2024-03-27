@@ -1,5 +1,4 @@
 import { Hono } from "hono"
-import { Suspense } from "react"
 import { renderToReadableStream, renderToString } from "react-dom/server"
 import {
   createStaticHandler,
@@ -8,46 +7,14 @@ import {
 } from "react-router-dom/server"
 import { routeObjects } from "./homura/router/Router"
 
-const sleep = (msec: number) =>
-  new Promise((resolve) => setTimeout(resolve, msec))
-
 const app = new Hono()
-
-let finished = false
-
-const DelayComponent = () => {
-  if (finished) {
-    finished = false
-    return (
-      <div>
-        <div id="title">取得したタイトル</div>
-        <div id="description">取得した説明</div>
-      </div>
-    )
-  }
-
-  throw new Promise((resolve) => {
-    return setTimeout(() => {
-      finished = true
-      resolve(true)
-    }, 3000)
-  })
-}
-
-const App = () => (
-  <div>
-    Test
-    <Suspense fallback={<div>Loading 3 sec...</div>}>
-      <DelayComponent />
-    </Suspense>
-  </div>
-)
 
 let title: string | null = null
 let description: string | null = null
 app.get("/api/app", async (c) => {
   const decoder = new TextDecoder("utf-8")
 
+  // assets folder にいろいろ吐き出されるのやめたい
   let { query, dataRoutes } = createStaticHandler(routeObjects)
   let context = await query(c.req)
   const router = createStaticRouter(dataRoutes, context)
@@ -75,7 +42,6 @@ app.get("/api/app", async (c) => {
     title = titleMatch ? titleMatch[1] : null
     description = descriptionMatch ? descriptionMatch[1] : null
 
-    await sleep(100)
     if (title && description) break
     if (done) break
     if (value === undefined) break
