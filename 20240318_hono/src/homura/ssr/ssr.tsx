@@ -4,7 +4,7 @@ import {
   createStaticHandler,
   createStaticRouter,
 } from "react-router-dom/server"
-import { routeObjects } from "../router/LazyRouter"
+import { lazyRouteObjects } from "../router/LazyRouter"
 import { HelmetServerState } from "react-helmet-async"
 import { HomuraSSRProvider } from "../provider/HomuraProvider"
 
@@ -45,7 +45,7 @@ export const renderToStreamed = async (req: HonoRequest) => {
     | undefined = {}
 
   // assets folder にいろいろ吐き出されるのやめたい
-  const { query, dataRoutes } = createStaticHandler(routeObjects)
+  const { query, dataRoutes } = createStaticHandler(lazyRouteObjects)
   const context = await query(createFetchRequest(req))
 
   if (context instanceof Response) {

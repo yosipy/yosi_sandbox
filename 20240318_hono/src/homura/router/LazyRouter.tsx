@@ -17,14 +17,16 @@ const ROUTES = import.meta.glob<{ default: JSX.Element }>(
   "/src/pages/**/[a-z[]*.tsx"
 )
 
-export const routeObjects: RouteObject[] = Object.keys(ROUTES).map((route) => {
-  const path = route
-    .replace(/\/src\/pages|page\.tsx$/g, "")
-    .replace(/\[\.{3}.+\]/, "*")
-    .replace(/\[(.+)\]/, ":$1") // [param] -> :param
+export const lazyRouteObjects: RouteObject[] = Object.keys(ROUTES).map(
+  (route) => {
+    const path = route
+      .replace(/\/src\/pages|page\.tsx$/g, "")
+      .replace(/\[\.{3}.+\]/, "*")
+      .replace(/\[(.+)\]/, ":$1") // [param] -> :param
 
-  return {
-    path,
-    element: LazyImportComponent(ROUTES[route])({}),
+    return {
+      path,
+      element: LazyImportComponent(ROUTES[route])({}),
+    }
   }
-})
+)
