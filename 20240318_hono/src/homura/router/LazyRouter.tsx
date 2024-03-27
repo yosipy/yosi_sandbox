@@ -21,7 +21,7 @@ export const lazyRouteObjects: RouteObject[] = Object.keys(ROUTES).map(
   (route) => {
     const path = route
       .replace(/\/src\/pages|page\.tsx$/g, "")
-      .replace(/\[\.{3}.+\]/, "*")
+      .replace(/\/\((.+)\)\//, "/")
       .replace(/\[(.+)\]/, ":$1") // [param] -> :param
 
     return {
