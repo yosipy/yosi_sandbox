@@ -3,10 +3,9 @@ import { renderToReadableStream } from "react-dom/server"
 import {
   createStaticHandler,
   createStaticRouter,
-  StaticRouterProvider,
 } from "react-router-dom/server"
 import { routeObjects } from "../router/Router"
-import { HelmetProvider, HelmetServerState } from "react-helmet-async"
+import { HelmetServerState } from "react-helmet-async"
 import { HomuraSSRProvider } from "../provider/HomuraProvider"
 
 const createFetchRequest = (req: HonoRequest): Request => {
@@ -16,7 +15,7 @@ const createFetchRequest = (req: HonoRequest): Request => {
   // const url = new URL(req.url)
   // console.log(`----${url.protocol}://${url.host}${url.pathname}`)
 
-  let headers = new Headers()
+  const headers = new Headers()
 
   for (let [key, values] of Object.entries(req.header)) {
     if (values) {
@@ -30,7 +29,7 @@ const createFetchRequest = (req: HonoRequest): Request => {
     }
   }
 
-  let init: RequestInit = {
+  const init: RequestInit = {
     method: req.method,
     headers,
   }
@@ -38,10 +37,7 @@ const createFetchRequest = (req: HonoRequest): Request => {
   return new Request(req.url, init)
 }
 
-export const renderToStreamed = async (
-  req: HonoRequest,
-  toJsonPath: boolean = false
-) => {
+export const renderToStreamed = async (req: HonoRequest) => {
   const helmetContext:
     | {
         helmet?: HelmetServerState
@@ -56,8 +52,6 @@ export const renderToStreamed = async (
     throw context
   }
 
-  console.log("dataRoutes")
-  console.log(dataRoutes)
   const router = createStaticRouter(dataRoutes, context)
   const stream = await renderToReadableStream(
     <HomuraSSRProvider
@@ -68,8 +62,6 @@ export const renderToStreamed = async (
   await stream.allReady
 
   const { helmet } = helmetContext
-  console.log("@@@@@@@@@")
-  console.log(helmet?.title.toString())
 
   return {
     head: helmet,
