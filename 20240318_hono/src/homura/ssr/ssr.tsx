@@ -4,7 +4,7 @@ import {
   createStaticHandler,
   createStaticRouter,
 } from "react-router-dom/server"
-import { routeObjects } from "../router/Router"
+import { routeObjects } from "../router/LazyRouter"
 import { HelmetServerState } from "react-helmet-async"
 import { HomuraSSRProvider } from "../provider/HomuraProvider"
 

@@ -5,7 +5,7 @@ import {
   StaticHandlerContext,
 } from "react-router-dom/server"
 import type { Router } from "@remix-run/router"
-import { routeObjects } from "../router/Router"
+import { routeObjects } from "../router/LazyRouter"
 import { HelmetProvider, HelmetServerState } from "react-helmet-async"
 
 export const HomuraProvider: FC = () => {
