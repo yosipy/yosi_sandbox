@@ -48,15 +48,15 @@ app.get("/about", async (c) => {
         helmet?: HelmetServerState
       }
     | undefined = {}
-  const decoder = new TextDecoder("utf-8")
 
   // assets folder にいろいろ吐き出されるのやめたい
   const { query, dataRoutes } = createStaticHandler(routeObjects)
   const context = await query(createFetchRequest(c.req))
+
   if (context instanceof Response) {
     throw context
   }
-  console.log("%%%%%%%%%%%")
+
   const router = createStaticRouter(dataRoutes, context)
   const stream = await renderToReadableStream(
     <HelmetProvider context={helmetContext}>
@@ -64,30 +64,6 @@ app.get("/about", async (c) => {
     </HelmetProvider>
   )
   await stream.allReady
-
-  const reader = stream.getReader()
-  while (true) {
-    const { done, value } = await reader.read()
-
-    const html = decoder.decode(value)
-    console.log(html)
-
-    // タイトルと説明を取り出すための正規表現パターン
-    const titleRegex = /<div id="title">(.*?)<\/div>/
-    const descriptionRegex = /<div id="description">(.*?)<\/div>/
-
-    // タイトルと説明を抽出する
-    const titleMatch = html.match(titleRegex)
-    const descriptionMatch = html.match(descriptionRegex)
-
-    // 抽出した結果を変数に格納
-    title = titleMatch ? titleMatch[1] : null
-    description = descriptionMatch ? descriptionMatch[1] : null
-
-    if (title && description) break
-    if (done) break
-    if (value === undefined) break
-  }
 
   const { helmet } = helmetContext
   console.log("@@@@@@@@@")
