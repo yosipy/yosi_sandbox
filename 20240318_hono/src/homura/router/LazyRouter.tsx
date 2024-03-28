@@ -13,7 +13,7 @@ const LazyImportComponent = (action: any) => {
 }
 
 const clientRegex = "/src/pages/**/[a-z[]*.tsx"
-const ROUTES = import.meta.glob<{ default: JSX.Element }>(
+const ROUTES = import.meta.glob<{ default: () => JSX.Element }>(
   "/src/pages/**/[a-z[]*.tsx"
 )
 
@@ -21,7 +21,7 @@ export const lazyRouteObjects: RouteObject[] = Object.keys(ROUTES).map(
   (route) => {
     const path = route
       .replace(/\/src\/pages|page\.tsx$/g, "")
-      .replace(/\[\.{3}.+\]/, "*")
+      .replace(/\/\((.+)\)\//, "/")
       .replace(/\[(.+)\]/, ":$1") // [param] -> :param
 
     return {

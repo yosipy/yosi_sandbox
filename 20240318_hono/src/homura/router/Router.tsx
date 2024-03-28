@@ -9,10 +9,12 @@ const ROUTES = import.meta.glob<{ default: () => JSX.Element }>(
 )
 
 export const routeObjects: RouteObject[] = Object.keys(ROUTES).map((route) => {
+  console.log(route)
   const path = route
     .replace(/\/src\/pages|page\.tsx$/g, "")
-    .replace(/\[\.{3}.+\]/, "*")
+    .replace(/\/\((.+)\)\//, "/")
     .replace(/\[(.+)\]/, ":$1") // [param] -> :param
+  console.log(path)
 
   const Element = ROUTES[route].default
 
