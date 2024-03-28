@@ -48,6 +48,7 @@ app.get("*", async (c) => {
   //   console.error(e)
   // }
   console.log("#######")
+  console.log(head)
   console.log(head?.title.toString())
 
   return c.html(
