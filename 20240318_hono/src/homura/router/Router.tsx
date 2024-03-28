@@ -10,9 +10,7 @@ const ROUTES = import.meta.glob<{ default: () => JSX.Element }>(
 )
 
 export const routeObjects: RouteObject[] = Object.keys(ROUTES).map((route) => {
-  console.log(route)
   const path = filePathToPath(route)
-  console.log(path)
 
   const Element = ROUTES[route].default
 
