@@ -13,7 +13,7 @@ const LazyImportComponent = (action: any) => {
 }
 
 const clientRegex = "/src/pages/**/[a-z[]*.tsx"
-const ROUTES = import.meta.glob<{ default: JSX.Element }>(
+const ROUTES = import.meta.glob<{ default: () => JSX.Element }>(
   "/src/pages/**/[a-z[]*.tsx"
 )
 
