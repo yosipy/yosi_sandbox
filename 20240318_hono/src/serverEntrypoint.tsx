@@ -2,6 +2,7 @@ import { Hono } from "hono"
 import { renderToString } from "react-dom/server"
 import { renderToStreamed } from "./homura/ssr/ssr"
 import { Script } from "./homura/components/Script/Script"
+import { routeApps } from "./homura/router/serverRouter"
 
 const app = new Hono()
 
@@ -22,6 +23,10 @@ const app = new Hono()
 //   // )
 //   return c.json({ title: head?.title.toComponent()[0].props })
 // })
+
+routeApps.forEach((routeApp) => {
+  app.route("", routeApp.honoApp)
+})
 
 app.get("*", async (c) => {
   const { head } = await renderToStreamed(c.req)
