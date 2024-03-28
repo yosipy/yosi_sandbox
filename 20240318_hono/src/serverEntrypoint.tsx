@@ -1,6 +1,8 @@
 import { Hono } from "hono"
 import { renderToString } from "react-dom/server"
 import { renderToStreamed } from "./homura/ssr/ssr"
+import { Script } from "./homura/components/Script/Script"
+import { routeApps } from "./homura/router/serverRouter"
 
 const app = new Hono()
 
@@ -21,6 +23,10 @@ const app = new Hono()
 //   // )
 //   return c.json({ title: head?.title.toComponent()[0].props })
 // })
+
+routeApps.forEach((routeApp) => {
+  app.route("", routeApp.honoApp)
+})
 
 app.get("*", async (c) => {
   const { head } = await renderToStreamed(c.req)
@@ -55,23 +61,7 @@ app.get("*", async (c) => {
             rel="stylesheet"
             href="https://cdn.simplecss.org/simple.min.css"
           />
-          {import.meta.env.PROD ? (
-            <script
-              type="module"
-              src="/static/client/clientEntrypoint.js"
-            ></script>
-          ) : (
-            <>
-              <script
-                type="module"
-                src="http://localhost:5173/static/devClientScript.js"
-              ></script>
-              <script
-                type="module"
-                src="http://localhost:5174/src/client.tsx"
-              ></script>
-            </>
-          )}
+          <Script />
         </head>
         <body>
           <div id="root"></div>
