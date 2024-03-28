@@ -1,5 +1,6 @@
 import React, { Suspense } from "react"
 import type { RouteObject } from "react-router-dom"
+import { filePathToPath } from "./file"
 
 const LazyImportComponent = (action: any) => {
   const LazyComponent = React.lazy(action)
@@ -12,17 +13,14 @@ const LazyImportComponent = (action: any) => {
   }
 }
 
-const clientRegex = "/src/pages/**/[a-z[]*.tsx"
+const clientRegex = "/src/pages/**/page.tsx"
 const ROUTES = import.meta.glob<{ default: () => JSX.Element }>(
   "/src/pages/**/[a-z[]*.tsx"
 )
 
 export const lazyRouteObjects: RouteObject[] = Object.keys(ROUTES).map(
   (route) => {
-    const path = route
-      .replace(/\/src\/pages|page\.tsx$/g, "")
-      .replace(/\/\((.+)\)\//, "/")
-      .replace(/\[(.+)\]/, ":$1") // [param] -> :param
+    const path = filePathToPath(route)
 
     return {
       path,

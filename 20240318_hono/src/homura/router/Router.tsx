@@ -1,4 +1,5 @@
 import type { RouteObject } from "react-router-dom"
+import { filePathToPath } from "./file"
 
 const clientRegex = "/src/pages/**/[a-z[]*.tsx"
 const ROUTES = import.meta.glob<{ default: () => JSX.Element }>(
@@ -10,10 +11,7 @@ const ROUTES = import.meta.glob<{ default: () => JSX.Element }>(
 
 export const routeObjects: RouteObject[] = Object.keys(ROUTES).map((route) => {
   console.log(route)
-  const path = route
-    .replace(/\/src\/pages|page\.tsx$/g, "")
-    .replace(/\/\((.+)\)\//, "/")
-    .replace(/\[(.+)\]/, ":$1") // [param] -> :param
+  const path = filePathToPath(route)
   console.log(path)
 
   const Element = ROUTES[route].default
