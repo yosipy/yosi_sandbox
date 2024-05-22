@@ -1,21 +1,27 @@
-import type { FC, ReactNode } from "react"
-import { Children, useEffect } from "react"
-import { useContextValue } from "./Provider"
+import type { FC } from "react"
+import { useMemo, useState } from "react"
+import { Link, Meta, Title, useContextValue } from "./Provider"
+import { includeInCSRBuild } from "../utils/runtimeEnv"
 
 type Props = {
-  children: ReactNode
+  title?: Title
+  metas?: Meta[]
+  links?: Link[]
 }
 
 export const Head: FC<Props> = (props) => {
-  const context = useContextValue()
-  context.title = "updated title!"
+  const data = useContextValue()
 
-  useEffect(() => {
-    const titleElement = Children.toArray(props.children).find(
-      (child) => child.type === "title"
-    )
-    console.log(titleElement)
-  })
+  useMemo(() => {
+    console.log("aaaaaaaaaaaaaaaa")
+    if (props.title) {
+      data.cleanHeadElements()
+      data.context.head = props
+      data.renderHeadElements()
+    }
+
+    console.log("head effect")
+  }, [JSON.stringify(props)])
 
   return <></>
 }

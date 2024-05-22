@@ -1,4 +1,4 @@
-import { Suspense } from "react"
+import { Suspense, useLayoutEffect } from "react"
 import { Link } from "react-router-dom"
 
 let finished = false
@@ -23,6 +23,9 @@ const DelayComponent = () => {
 }
 
 export default function Top() {
+  useLayoutEffect(() => {
+    console.log("################useLayoutEffect")
+  }, [])
   return (
     <>
       <Link to="/about">about</Link>
