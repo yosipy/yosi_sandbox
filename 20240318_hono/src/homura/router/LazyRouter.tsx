@@ -18,13 +18,22 @@ const ROUTES = import.meta.glob<{ default: () => JSX.Element }>(
   "/src/pages/**/page.tsx"
 )
 
-export const lazyRouteObjects: RouteObject[] = Object.keys(ROUTES).map(
-  (route) => {
-    const path = filePathToPath(route)
+const ROUTES_404 = import.meta.glob<{ default: () => JSX.Element }>(
+  "/src/pages/_404.tsx"
+)
 
+export const lazyRouteObjects: RouteObject[] = [
+  ...Object.keys(ROUTES).map((route) => {
     return {
-      path,
+      path: filePathToPath(route),
       element: LazyImportComponent(ROUTES[route])({}),
     }
-  }
-)
+  }),
+  (() => {
+    const route = Object.keys(ROUTES_404)[0]
+    return {
+      path: "*",
+      element: LazyImportComponent(ROUTES_404[route])({}),
+    }
+  })(),
+]

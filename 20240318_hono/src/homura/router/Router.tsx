@@ -9,13 +9,28 @@ const ROUTES = import.meta.glob<{ default: () => JSX.Element }>(
   }
 )
 
-export const routeObjects: RouteObject[] = Object.keys(ROUTES).map((route) => {
-  const path = filePathToPath(route)
-
-  const Element = ROUTES[route].default
-
-  return {
-    path,
-    element: <Element />,
+const ROUTES_404 = import.meta.glob<{ default: () => JSX.Element }>(
+  "/src/pages/_404.tsx",
+  {
+    eager: true,
   }
-})
+)
+
+export const routeObjects: RouteObject[] = [
+  ...Object.keys(ROUTES).map((route) => {
+    const Element = ROUTES[route].default
+
+    return {
+      path: filePathToPath(route),
+      element: <Element />,
+    }
+  }),
+  (() => {
+    const route = Object.keys(ROUTES_404)[0]
+    const Element = ROUTES_404[route].default
+    return {
+      path: "*",
+      element: <Element />,
+    }
+  })(),
+]

@@ -3,6 +3,7 @@ import { renderToString } from "react-dom/server"
 import { renderToStreamed } from "./homura/ssr/ssr"
 import { Script } from "./homura/components/Script/Script"
 import { routeApps } from "./homura/router/serverRouter"
+import { FC, useEffect } from "react"
 
 const app = new Hono()
 

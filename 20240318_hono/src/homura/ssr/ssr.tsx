@@ -7,6 +7,7 @@ import {
 import { routeObjects } from "../router/Router"
 import { HelmetServerState } from "react-helmet-async"
 import { HomuraSSRProvider } from "../provider/HomuraSSRProvider"
+// import { HeadProvider } from "../head/Provider"
 
 const createFetchRequest = (req: HonoRequest): Request => {
   if (req.method !== "GET") {
@@ -50,17 +51,21 @@ export const renderToStreamed = async (req: HonoRequest) => {
   if (context instanceof Response) {
     throw context
   }
+  // const headContext = { head: { title: "before" } }
 
   const router = createStaticRouter(dataRoutes, context)
   const stream = await renderToReadableStream(
+    // <HeadProvider context={headContext}>
     <HomuraSSRProvider
       helmet={{ context: helmetContext }}
       reactRouter={{ router: router, context: context }}
     />
+    // </HeadProvider>
   )
   await stream.allReady
 
   const { helmet } = helmetContext
+  // console.log(`$$$$$$$$$$$$$$$ -> ${headContext.head.title}`)
 
   return {
     head: helmet,
